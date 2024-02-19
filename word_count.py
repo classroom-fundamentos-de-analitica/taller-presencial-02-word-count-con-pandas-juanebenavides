@@ -35,10 +35,20 @@ def count_words(dataframe):
     """Word count"""
     dataframe = dataframe.copy()
     dataframe['text'] = dataframe['text'.str.split()
-    dataframe = count_words(dataframe)
+    dataframe = dataframe.explode('text').reset_index(drop=True)
+    dataframe = dataframe.rename(columns=('text'): 'word'))
+    datafrane['value'] = 1
+    
+    conteo = dataframe.groupby(['text'], as index=False).agg(
+        {
+             'value'= sum
+        }
+    )
+    return conteo
 
 def save_output(dataframe, output_filename):
     """Save output to a file."""
+    dataframe.to_csv(output_filename, index=False)
 
 
 #
@@ -46,6 +56,10 @@ def save_output(dataframe, output_filename):
 #
 def run(input_directory, output_filename):
     """Call all functions."""
+    dataframe = load_input(input_directory)
+    dataframe = class_text(dataframe)
+    dataframe = count_words(dataframe)
+    save_output[dataframe, output_filename)
 
 
 if __name__ == "__main__":
